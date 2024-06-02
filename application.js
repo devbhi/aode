@@ -1,5 +1,7 @@
 var http = require("http");
 const applyMiddlewares = require("./middleware");
+const response = require("./response");
+const request = require("./request");
 
 var app = (exports = module.exports = {});
 
@@ -13,6 +15,10 @@ app.routes = {
 };
 
 // Method to register GET routes
+app.get = function (path, handler) {
+  this.routes["GET"][path] = handler;
+};
+
 app.get = function (path, handler) {
   this.routes["GET"][path] = handler;
 };
@@ -46,6 +52,8 @@ app.use = function (middleware) {
 };
 
 const server = http.createServer((req, res) => {
+  response(res);
+  request(req);
   applyMiddlewares(req, res, app.middlewares, () => {
     const handler = app.routes[req.method][req.url];
     if (handler) {

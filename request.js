@@ -1,5 +1,11 @@
-var http = require("http");
+exports = module.exports = request;
 
-var req = Object.create(http.IncomingMessage.prototype);
+function request(req) {
+  const parsedUrl = url.parse(req.url, true);
+  req.query = parsedUrl.query;
+  req.body = {};
 
-module.exports = req;
+  req.on("data", (chunk) => {
+    req.body = JSON.parse(chunk.toString());
+  });
+}

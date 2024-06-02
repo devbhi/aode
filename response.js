@@ -1,5 +1,25 @@
-var http = require("http");
+exports = module.exports = response;
 
-var res = Object.create(http.ServerResponse.prototype);
+function response(res) {
+  res.send = function (body) {
+    if (typeof body === "string" || Buffer.isBuffer(body)) {
+      res.setHeader("Content-Type", "text/plain");
+      res.end(body);
+    } else if (typeof body === "object") {
+      res.setHeader("Content-Type", "application/json");
+      res.end(JSON.stringify(body));
+    } else {
+      res.end(body);
+    }
+  };
 
-module.exports = res;
+  res.json = function (obj) {
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify(obj));
+  };
+
+  res.status = function (code) {
+    res.statusCode = code;
+    return res;
+  };
+}
