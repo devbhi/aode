@@ -1,3 +1,4 @@
+var bodyParser = require("body-parser");
 var mixin = require("merge-descriptors");
 var proto = require("./application");
 // var req = require("./request");
@@ -25,3 +26,8 @@ function createApplication() {
   // app.init();
   return app;
 }
+
+exports.json = bodyParser.json;
+exports.raw = bodyParser.raw;
+exports.text = bodyParser.text;
+exports.urlencoded = bodyParser.urlencoded;

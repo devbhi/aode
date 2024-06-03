@@ -4,6 +4,7 @@ const app = aode();
 //   console.log(`${req.method} ${req.url}`);
 //   next();
 // });
+app.use(aode.json());
 app.get("/", (req, res) => {
   // console.log(req.url);
   res.send("hello");
