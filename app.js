@@ -3,8 +3,9 @@ const Ro = require("./model/RO");
 const Count = require("./model/Count");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const express = require("express");
 const minimaal = require("minimaal");
-const app = minimaal();
+const app = express();
 
 const connectDB = async () => {
   try {
@@ -24,16 +25,16 @@ app.get("/", (req, res) => {
   res.send("<h1>Hello from ENHOUSER</h1>");
 });
 
-app.post(
-  "/addROUser",
-  query((req) =>
-    Ro.create({
-      service: req.body.service,
-      username: req.body.username,
-      email: req.body.email.toLowerCase(),
-    })
-  )
-);
+// app.post(
+//   "/addROUser",
+//   query((req) =>
+//     Ro.create({
+//       service: req.body.service,
+//       username: req.body.username,
+//       email: req.body.email.toLowerCase(),
+//     })
+//   )
+// );
 
 app.post("/count", async (req, res) => {
   const { name } = req.body;
