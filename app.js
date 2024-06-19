@@ -1,5 +1,6 @@
 require("dotenv").config({ path: "./config/.env" });
 const Ro = require("./model/RO");
+const Count = require("./model/Count");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const minimaal = require("minimaal");
@@ -34,16 +35,35 @@ app.post(
   )
 );
 
+app.post("/count", async (req, res) => {
+  const { name } = req.body;
+
+  try {
+    // Find the document with the given name or create a new one if it doesn't exist
+    let doc = await Count.findOneAndUpdate(
+      { name },
+      { $inc: { count: 1 } }, // Increment count by 1
+      { new: true, upsert: true }
+    );
+
+    // Send the updated document as response
+    res.json(doc);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
 module.exports = { app, connectDB };
 
 // async (req, res) => {
 //     try {
 //       const { service, username, email } = req.body;
-//       if (!service && !username && !email) {
-//         res
-//           .status(210)
-//           .send({ status: false, message: "Service Details missing!" });
-//       }
+//   if (!service && !username && !email) {
+//     res
+//       .status(210)
+//       .send({ status: false, message: "Service Details missing!" });
+//   }
 //       const ro = await Ro.create({
 //         service,
 //         username,
