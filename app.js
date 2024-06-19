@@ -23,28 +23,39 @@ app.get("/", (req, res) => {
   res.send("<h1>Hello from ENHOUSER</h1>");
 });
 
-app.post("/addROUser", async (req, res) => {
-  try {
-    const { service, username, email } = req.body;
-    if (!service && !username && !email) {
-      res
-        .status(210)
-        .send({ status: false, message: "Service Details missing!" });
-    }
-    const ro = await Ro.create({
-      service,
-      username,
-      email: email.toLowerCase(),
-    });
-    res
-      .status(200)
-      .json({ status: true, message: "We have noted your request!!" });
-  } catch (e) {
-    console.log("error in service : " + e);
-    res
-      .status(220)
-      .send({ status: false, message: "Some error occured in User" });
-  }
-});
+app.post(
+  "/addROUser",
+  query((req) =>
+    Ro.create({
+      service: req.body.service,
+      username: req.body.username,
+      email: req.body.email.toLowerCase(),
+    })
+  )
+);
 
 module.exports = { app, connectDB };
+
+// async (req, res) => {
+//     try {
+//       const { service, username, email } = req.body;
+//       if (!service && !username && !email) {
+//         res
+//           .status(210)
+//           .send({ status: false, message: "Service Details missing!" });
+//       }
+//       const ro = await Ro.create({
+//         service,
+//         username,
+//         email: email.toLowerCase(),
+//       });
+//       res
+//         .status(200)
+//         .json({ status: true, message: "We have noted your request!!" });
+//     } catch (e) {
+//       console.log("error in service : " + e);
+//       res
+//         .status(220)
+//         .send({ status: false, message: "Some error occured in User" });
+//     }
+//   }
