@@ -5,9 +5,10 @@ const app = aode();
 //   next();
 // });
 app.use(aode.json());
+app.use(aode.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   // console.log(req.url);
-  res.send("hello");
+  res.status(340).send("hello");
 });
-app.listen(4000);
+app.listen(5000);
 // app.test();
