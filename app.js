@@ -5,7 +5,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const express = require("express");
 const minimaal = require("minimaal");
-const app = express();
+const app = minimaal();
 
 const connectDB = async () => {
   try {
@@ -41,14 +41,14 @@ app.post("/count", async (req, res) => {
 
   try {
     // Find the document with the given name or create a new one if it doesn't exist
-    let doc = await Count.findOneAndUpdate(
-      { name },
-      { $inc: { count: 1 } }, // Increment count by 1
-      { new: true, upsert: true }
-    );
+    // let doc = await Count.findOneAndUpdate(
+    //   { name },
+    //   { $inc: { count: 1 } }, // Increment count by 1
+    //   { new: true, upsert: true }
+    // );
 
     // Send the updated document as response
-    res.json(doc);
+    res.json("post");
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server Error" });
